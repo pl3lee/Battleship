@@ -56,7 +56,9 @@ class Gameboard {
       (element) => element.row === pos.row && element.col === pos.col
     );
   }
+  // returns true if attack is successful (even if misses)
   receiveAttack(pos) {
+    if (this.beenHitBefore(pos)) return false;
     if (
       this.board[pos.row][pos.col] != null &&
       !this.board[pos.row][pos.col].isSunk()
@@ -64,6 +66,7 @@ class Gameboard {
       this.board[pos.row][pos.col].hit();
     }
     this.attacksReceived.push(pos);
+    return true;
   }
 
   allShipsSunk() {
@@ -76,3 +79,5 @@ class Gameboard {
     return true;
   }
 }
+
+export default Gameboard;
