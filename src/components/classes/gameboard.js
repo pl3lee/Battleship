@@ -51,7 +51,11 @@ class Gameboard {
     }
     return true;
   }
-  beenHitBefore(pos) {}
+  beenHitBefore(pos) {
+    this.board.some(
+      (element) => element.row === pos.row && element.col === pos.col
+    );
+  }
   receiveAttack(pos) {
     if (
       this.board[pos.row][pos.col] != null &&
@@ -59,5 +63,16 @@ class Gameboard {
     ) {
       this.board[pos.row][pos.col].hit();
     }
+    this.attacksReceived.push(pos);
+  }
+
+  allShipsSunk() {
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (this.board[i][j] != null && !this.board[i][j].isSunk())
+          return false;
+      }
+    }
+    return true;
   }
 }
