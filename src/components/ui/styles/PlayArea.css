@@ -1,5 +1,18 @@
-.play-area {
+
+.boards {
   display: flex;
   justify-content: center;
   gap: 10vw;
+}
+.setup {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+}
+.change-orientation {
+  display: flex;
+  align-items: center;
+  font-size: x-large;
+  justify-content: flex-start;
+  grid-column: 3 / 4;
 }

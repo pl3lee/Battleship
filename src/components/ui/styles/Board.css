@@ -1,5 +1,11 @@
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 40px);
+  grid-template-rows: repeat(10, 40px);
+  gap: 0px;
+  justify-content: center;
+}
+
+.setup > .board {
+  grid-column: 2 / 3;
 }
