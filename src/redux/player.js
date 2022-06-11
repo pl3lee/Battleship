@@ -7,13 +7,14 @@ const initialState = {
     // destroyer: [77, 87, 97],
     // submarine: [13, 14, 15],
     // patrol: [98, 99],
-    carrier: [-1, -1, -1, -1],
+    carrier: [-1, -1, -1, -1, -1],
     battleship: [-1, -1, -1, -1],
     destroyer: [-1, -1, -1],
     submarine: [-1, -1, -1],
     patrol: [-1, -1],
   },
   attacksReceived: [],
+  placedSuccessfully: true,
 };
 
 export const playerSlice = createSlice({
@@ -58,6 +59,7 @@ export const playerSlice = createSlice({
           targettingShip[i] = action.payload.startingPos + 10 * i;
         }
       }
+      state.placedSuccessfully = true;
     },
   },
 });
