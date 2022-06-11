@@ -1,14 +1,14 @@
 import Header from './Header';
 import Status from './Status';
 import PlayArea from './PlayArea';
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import './styles/Game.css';
 const Game = () => {
   return (
     <div className="game">
       <Header />
       <Status status="test status" />
-      <PlayArea setup={true} />
+      <PlayArea setup={false} />
     </div>
   );
 };
