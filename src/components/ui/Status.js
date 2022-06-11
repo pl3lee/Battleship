@@ -6,7 +6,7 @@ const Status = (props) => {
   if (isInSetup) {
     return <div className="status">Place {currentShip} in the grid</div>;
   } else {
-    return <div className="status">test status</div>;
+    return <div className="status">test</div>;
   }
 };
 

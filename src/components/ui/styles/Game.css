@@ -5,3 +5,10 @@
   width: 100%;
   padding: 20px;
 }
+
+.win-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 200px;
+}

@@ -1,7 +1,9 @@
 import './styles/Cell.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveAttack, placeShip } from '../../redux/player.js';
+import { placeShip, receiveRandomAttack } from '../../redux/player.js';
+import { attackComputer } from '../../redux/computer.js';
 import { nextShip } from '../../redux/gameStatus.js';
+import React, { useEffect } from 'react';
 const Cell = (props) => {
   const dispatch = useDispatch();
   const isInSetup = useSelector((state) => state.gameStatus.setup);
@@ -15,6 +17,23 @@ const Cell = (props) => {
   const destroyerPos = useSelector((state) => state.player.ships.destroyer);
   const submarinePos = useSelector((state) => state.player.ships.submarine);
   const patrolPos = useSelector((state) => state.player.ships.patrol);
+
+  const carrierPosComputer = useSelector(
+    (state) => state.computer.ships.carrier
+  );
+  const battleshipPosComputer = useSelector(
+    (state) => state.computer.ships.battleship
+  );
+  const destroyerPosComputer = useSelector(
+    (state) => state.computer.ships.destroyer
+  );
+  const submarinePosComputer = useSelector(
+    (state) => state.computer.ships.submarine
+  );
+  const patrolPosComputer = useSelector((state) => state.computer.ships.patrol);
+  const attacksReceivedComputer = useSelector(
+    (state) => state.computer.attacksReceived
+  );
   function MouseOver(event) {
     // event.target.style.background = 'red';
   }
@@ -85,6 +104,12 @@ const Cell = (props) => {
     dispatch(nextShip());
   };
 
+  const attack = () => {
+    dispatch(attackComputer(props.index));
+
+    dispatch(receiveRandomAttack());
+  };
+
   if (isInSetup) {
     return (
       <div
@@ -97,17 +122,21 @@ const Cell = (props) => {
       </div>
     );
   } else {
-    if (attacksReceived.includes(props.index)) {
-      var attacked = true;
+    if (props.cellFor === 'player') {
+      if (attacksReceived.includes(props.index)) {
+        var attacked = true;
+      }
+      return <div className="cell">{attacked ? 'shot' : props.type}</div>;
+    } else {
+      if (attacksReceivedComputer.includes(props.index)) {
+        attacked = true;
+      }
+      return (
+        <div className="cell" onClick={attack}>
+          {attacked ? 'shot' : props.type}
+        </div>
+      );
     }
-    return (
-      <div
-        className="cell"
-        onClick={() => dispatch(receiveAttack(props.index))}
-      >
-        {attacked ? 'shot' : props.type}
-      </div>
-    );
   }
 };
 

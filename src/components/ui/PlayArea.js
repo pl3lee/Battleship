@@ -18,7 +18,7 @@ const PlayArea = (props) => {
 
   let mainArea = isInSetup ? (
     <div className="setup">
-      <Board />
+      <Board type="player" />
       <div
         className="change-orientation"
         onClick={() => dispatch(cycleOrientation())}
@@ -29,7 +29,7 @@ const PlayArea = (props) => {
     </div>
   ) : (
     <div className="boards">
-      <Board /> <Board />
+      <Board type="player" /> <Board type="computer" />
     </div>
   );
   return <div className="play-area">{mainArea}</div>;
