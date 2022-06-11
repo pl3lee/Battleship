@@ -4,6 +4,7 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
+
 const initialState = {
   ships: {
     // carrier: [-1, -1, -1, -1, -1],
@@ -29,13 +30,13 @@ export const computerSlice = createSlice({
         state.attacksReceived.push(action.payload);
       }
     },
-    // initiateRandom: (state) => {
-    //   let len = 5;
-    //   let randomStartingPos = getRandomInt(0, 100);
-    //   let directions = ['n', 'e', 's', 'w']
-    //   let randomDirection = directions[getRandomInt(0, 4)];
-    //   if (randomStartingPos)
-    // }
+    initiateRandom: (state) => {
+      let len = 4;
+      let directions = ['n', 'e', 's', 'w'];
+      let randomStartingPos = getRandomInt(0, 100);
+      let randomDirection = directions[getRandomInt(0, 4)];
+      let valid = false;
+    },
 
     // placeShip: (state, action) => {
     //   let len;
