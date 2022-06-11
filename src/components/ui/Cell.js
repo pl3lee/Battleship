@@ -10,14 +10,16 @@ const Cell = (props) => {
   const currentOrientation = useSelector(
     (state) => state.gameStatus.currentOrientation
   );
-  const placedSuccessfully = useSelector(
-    (state) => state.player.placedSuccessfully
-  );
+  const carrierPos = useSelector((state) => state.player.ships.carrier);
+  const battleshipPos = useSelector((state) => state.player.ships.battleship);
+  const destroyerPos = useSelector((state) => state.player.ships.destroyer);
+  const submarinePos = useSelector((state) => state.player.ships.submarine);
+  const patrolPos = useSelector((state) => state.player.ships.patrol);
   function MouseOver(event) {
-    event.target.style.background = 'red';
+    // event.target.style.background = 'red';
   }
   function MouseOut(event) {
-    event.target.style.background = '';
+    // event.target.style.background = '';
   }
   const place = () => {
     let len;
@@ -34,6 +36,11 @@ const Cell = (props) => {
         if (oldTensPlace !== newTensPlace) {
           return;
         }
+        if (carrierPos.includes(newPos)) return;
+        if (battleshipPos.includes(newPos)) return;
+        if (destroyerPos.includes(newPos)) return;
+        if (submarinePos.includes(newPos)) return;
+        if (patrolPos.includes(newPos)) return;
       } else if (currentOrientation === 'w') {
         let oldTensPlace = Math.floor(props.index / 10);
         let newPos = props.index - i;
@@ -41,16 +48,31 @@ const Cell = (props) => {
         if (oldTensPlace !== newTensPlace) {
           return;
         }
+        if (carrierPos.includes(newPos)) return;
+        if (battleshipPos.includes(newPos)) return;
+        if (destroyerPos.includes(newPos)) return;
+        if (submarinePos.includes(newPos)) return;
+        if (patrolPos.includes(newPos)) return;
       } else if (currentOrientation === 'n') {
         let newPos = props.index - 10 * i;
         if (newPos < 0) {
           return;
         }
+        if (carrierPos.includes(newPos)) return;
+        if (battleshipPos.includes(newPos)) return;
+        if (destroyerPos.includes(newPos)) return;
+        if (submarinePos.includes(newPos)) return;
+        if (patrolPos.includes(newPos)) return;
       } else {
         let newPos = props.index + 10 * i;
         if (newPos > 99) {
           return;
         }
+        if (carrierPos.includes(newPos)) return;
+        if (battleshipPos.includes(newPos)) return;
+        if (destroyerPos.includes(newPos)) return;
+        if (submarinePos.includes(newPos)) return;
+        if (patrolPos.includes(newPos)) return;
       }
     }
     dispatch(
@@ -68,7 +90,7 @@ const Cell = (props) => {
       <div
         className="cell"
         onClick={place}
-        onMouseOver={MouseOver}
+        onMouseOver={MouseOver} //for hovering effect
         onMouseOut={MouseOut}
       >
         {props.type}
