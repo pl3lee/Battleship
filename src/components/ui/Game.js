@@ -8,7 +8,7 @@ const Game = () => {
     <div className="game">
       <Header />
       <Status status="test status" />
-      <PlayArea setup={false} />
+      <PlayArea />
     </div>
   );
 };

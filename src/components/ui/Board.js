@@ -9,7 +9,7 @@ const Board = (props) => {
   const submarinePos = useSelector((state) => state.player.ships.submarine);
   const patrolPos = useSelector((state) => state.player.ships.patrol);
   const attacksReceived = useSelector((state) => state.player.attacksReceived);
-  console.log(attacksReceived);
+
   let cells = [];
   for (let i = 0; i < 100; i++) {
     let type;

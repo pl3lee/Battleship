@@ -1,11 +1,15 @@
 import './styles/PlayArea.css';
 import Board from './Board';
+import { useSelector, useDispatch } from 'react-redux';
+import { finishSetup } from '../../redux/gameStatus.js';
 const PlayArea = (props) => {
-  let mainArea = props.setup ? (
+  const dispatch = useDispatch();
+  const isInSetup = useSelector((state) => state.gameStatus.setup);
+  let mainArea = isInSetup ? (
     <div className="setup">
       <Board />
       <div className="change-orientation">
-        <span class="material-symbols-outlined">autorenew</span> Change
+        <span className="material-symbols-outlined">autorenew</span> Change
         Orientation
       </div>
     </div>
