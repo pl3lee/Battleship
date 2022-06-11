@@ -2,7 +2,7 @@ import Header from './Header';
 import Status from './Status';
 import PlayArea from './PlayArea';
 import { useSelector, useDispatch } from 'react-redux';
-import { placeShip } from '../../redux/computer.js';
+import { initiateRandom } from '../../redux/computer.js';
 import './styles/Game.css';
 import React, { useState, useEffect } from 'react';
 
@@ -39,6 +39,11 @@ const Game = () => {
   const attacksReceivedComputer = useSelector(
     (state) => state.computer.attacksReceived
   );
+
+  useEffect(() => {
+    dispatch(initiateRandom());
+  }, []);
+
   const checkPlayerWin = () => {
     let playerWon;
     let allComputerShipsPos = [

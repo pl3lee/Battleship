@@ -5,6 +5,46 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
+function startingPosValid(startingPos, direction, len, ships) {
+  if (direction === 'n') {
+    for (let i = 0; i < len; i++) {
+      let newPos = startingPos - 10 * i;
+      if (newPos < 0) return false;
+      if (posIsOccupied(newPos, ships)) return false;
+    }
+  } else if (direction === 's') {
+    for (let i = 0; i < len; i++) {
+      let newPos = startingPos + 10 * i;
+      if (newPos > 99) return false;
+      if (posIsOccupied(newPos, ships)) return false;
+    }
+  } else if (direction === 'e') {
+    for (let i = 0; i < len; i++) {
+      let newPos = startingPos + i;
+      let oldTensPlace = Math.floor(startingPos / 10);
+      let newTensPlace = Math.floor(newPos / 10);
+      if (oldTensPlace !== newTensPlace) return false;
+      if (posIsOccupied(newPos, ships)) return false;
+    }
+  } else if (direction === 'w') {
+    for (let i = 0; i < len; i++) {
+      let newPos = startingPos - i;
+      let oldTensPlace = Math.floor(startingPos / 10);
+      let newTensPlace = Math.floor(newPos / 10);
+      if (oldTensPlace !== newTensPlace) return false;
+      if (posIsOccupied(newPos, ships)) return false;
+    }
+  }
+  return true;
+}
+
+function posIsOccupied(pos, ships) {
+  if (ships.carrier.includes(pos)) return true;
+  if (ships.battleship.includes(pos)) return true;
+  if (ships.destroyer.includes(pos)) return true;
+  if (ships.submarine.includes(pos)) return true;
+  if (ships.patrol.includes(pos)) return true;
+}
 const initialState = {
   ships: {
     // carrier: [-1, -1, -1, -1, -1],
@@ -31,51 +71,124 @@ export const computerSlice = createSlice({
       }
     },
     initiateRandom: (state) => {
-      let len = 4;
       let directions = ['n', 'e', 's', 'w'];
-      let randomStartingPos = getRandomInt(0, 100);
-      let randomDirection = directions[getRandomInt(0, 4)];
-      let valid = false;
-    },
+      let len;
+      let randomStartingPos;
+      let randomDirection;
+      // carrier
+      len = 5;
+      randomStartingPos = getRandomInt(0, 100);
+      randomDirection = directions[getRandomInt(0, 4)];
+      while (
+        !startingPosValid(randomStartingPos, randomDirection, len, state.ships)
+      ) {
+        randomStartingPos = getRandomInt(0, 100);
+        randomDirection = directions[getRandomInt(0, 4)];
+      }
+      for (let i = 0; i < len; i++) {
+        if (randomDirection === 'e') {
+          state.ships.carrier[i] = randomStartingPos + i;
+        } else if (randomDirection === 'w') {
+          state.ships.carrier[i] = randomStartingPos - i;
+        } else if (randomDirection === 'n') {
+          state.ships.carrier[i] = randomStartingPos - 10 * i;
+        } else {
+          state.ships.carrier[i] = randomStartingPos + 10 * i;
+        }
+      }
 
-    // placeShip: (state, action) => {
-    //   let len;
-    //   let targettingShip;
-    //   if (action.payload.name === 'Carrier') {
-    //     len = 5;
-    //     targettingShip = state.ships.carrier;
-    //   } else if (action.payload.name === 'Battleship') {
-    //     len = 4;
-    //     targettingShip = state.ships.battleship;
-    //   } else if (
-    //     action.payload.name === 'Destroyer' ||
-    //     action.payload.name === 'Submarine'
-    //   ) {
-    //     len = 3;
-    //     targettingShip =
-    //       action.payload.name === 'Destroyer'
-    //         ? state.ships.destroyer
-    //         : state.ships.submarine;
-    //   } else if (action.payload.name === 'Patrol') {
-    //     len = 2;
-    //     targettingShip = state.ships.patrol;
-    //   }
-    //   for (let i = 0; i < len; i++) {
-    //     if (action.payload.direction === 'e') {
-    //       targettingShip[i] = action.payload.startingPos + i;
-    //     } else if (action.payload.direction === 'w') {
-    //       targettingShip[i] = action.payload.startingPos - i;
-    //     } else if (action.payload.direction === 'n') {
-    //       targettingShip[i] = action.payload.startingPos - 10 * i;
-    //     } else {
-    //       targettingShip[i] = action.payload.startingPos + 10 * i;
-    //     }
-    //   }
-    // },
+      //battleship
+      len = 4;
+      randomStartingPos = getRandomInt(0, 100);
+      randomDirection = directions[getRandomInt(0, 4)];
+      while (
+        !startingPosValid(randomStartingPos, randomDirection, len, state.ships)
+      ) {
+        randomStartingPos = getRandomInt(0, 100);
+        randomDirection = directions[getRandomInt(0, 4)];
+      }
+      for (let i = 0; i < len; i++) {
+        if (randomDirection === 'e') {
+          state.ships.battleship[i] = randomStartingPos + i;
+        } else if (randomDirection === 'w') {
+          state.ships.battleship[i] = randomStartingPos - i;
+        } else if (randomDirection === 'n') {
+          state.ships.battleship[i] = randomStartingPos - 10 * i;
+        } else {
+          state.ships.battleship[i] = randomStartingPos + 10 * i;
+        }
+      }
+
+      // destroyer
+      len = 3;
+      randomStartingPos = getRandomInt(0, 100);
+      randomDirection = directions[getRandomInt(0, 4)];
+      while (
+        !startingPosValid(randomStartingPos, randomDirection, len, state.ships)
+      ) {
+        randomStartingPos = getRandomInt(0, 100);
+        randomDirection = directions[getRandomInt(0, 4)];
+      }
+      for (let i = 0; i < len; i++) {
+        if (randomDirection === 'e') {
+          state.ships.destroyer[i] = randomStartingPos + i;
+        } else if (randomDirection === 'w') {
+          state.ships.destroyer[i] = randomStartingPos - i;
+        } else if (randomDirection === 'n') {
+          state.ships.destroyer[i] = randomStartingPos - 10 * i;
+        } else {
+          state.ships.destroyer[i] = randomStartingPos + 10 * i;
+        }
+      }
+
+      // submarine
+      len = 3;
+      randomStartingPos = getRandomInt(0, 100);
+      randomDirection = directions[getRandomInt(0, 4)];
+      while (
+        !startingPosValid(randomStartingPos, randomDirection, len, state.ships)
+      ) {
+        randomStartingPos = getRandomInt(0, 100);
+        randomDirection = directions[getRandomInt(0, 4)];
+      }
+      for (let i = 0; i < len; i++) {
+        if (randomDirection === 'e') {
+          state.ships.submarine[i] = randomStartingPos + i;
+        } else if (randomDirection === 'w') {
+          state.ships.submarine[i] = randomStartingPos - i;
+        } else if (randomDirection === 'n') {
+          state.ships.submarine[i] = randomStartingPos - 10 * i;
+        } else {
+          state.ships.submarine[i] = randomStartingPos + 10 * i;
+        }
+      }
+
+      // patrol
+      len = 2;
+      randomStartingPos = getRandomInt(0, 100);
+      randomDirection = directions[getRandomInt(0, 4)];
+      while (
+        !startingPosValid(randomStartingPos, randomDirection, len, state.ships)
+      ) {
+        randomStartingPos = getRandomInt(0, 100);
+        randomDirection = directions[getRandomInt(0, 4)];
+      }
+      for (let i = 0; i < len; i++) {
+        if (randomDirection === 'e') {
+          state.ships.patrol[i] = randomStartingPos + i;
+        } else if (randomDirection === 'w') {
+          state.ships.patrol[i] = randomStartingPos - i;
+        } else if (randomDirection === 'n') {
+          state.ships.patrol[i] = randomStartingPos - 10 * i;
+        } else {
+          state.ships.patrol[i] = randomStartingPos + 10 * i;
+        }
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { attackComputer } = computerSlice.actions;
+export const { attackComputer, initiateRandom } = computerSlice.actions;
 
 export default computerSlice.reducer;

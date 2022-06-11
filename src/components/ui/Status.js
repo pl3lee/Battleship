@@ -6,7 +6,11 @@ const Status = (props) => {
   if (isInSetup) {
     return <div className="status">Place {currentShip} in the grid</div>;
   } else {
-    return <div className="status">test</div>;
+    return (
+      <div className="status">
+        Attack by clicking on the enemy grid on the right!
+      </div>
+    );
   }
 };
 

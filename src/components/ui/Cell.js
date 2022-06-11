@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { placeShip, receiveRandomAttack } from '../../redux/player.js';
 import { attackComputer } from '../../redux/computer.js';
 import { nextShip } from '../../redux/gameStatus.js';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 const Cell = (props) => {
   const dispatch = useDispatch();
   const isInSetup = useSelector((state) => state.gameStatus.setup);
@@ -105,9 +105,11 @@ const Cell = (props) => {
   };
 
   const attack = () => {
-    dispatch(attackComputer(props.index));
+    if (!attacksReceivedComputer.includes(props.index)) {
+      dispatch(attackComputer(props.index));
 
-    dispatch(receiveRandomAttack());
+      dispatch(receiveRandomAttack());
+    }
   };
 
   if (isInSetup) {
@@ -123,17 +125,33 @@ const Cell = (props) => {
     );
   } else {
     if (props.cellFor === 'player') {
+      let computerCell;
       if (attacksReceived.includes(props.index)) {
         var attacked = true;
       }
-      return <div className="cell">{attacked ? 'shot' : props.type}</div>;
+      if (attacked && props.type) {
+        computerCell = <div className="hit">X</div>;
+      } else if (attacked) {
+        computerCell = <div className="miss">O</div>;
+      } else {
+        computerCell = props.type;
+      }
+      return <div className="cell">{computerCell}</div>;
     } else {
+      let computerCell;
       if (attacksReceivedComputer.includes(props.index)) {
         attacked = true;
       }
+      if (attacked && props.type) {
+        computerCell = <div className="hit">X</div>;
+      } else if (attacked) {
+        computerCell = <div className="miss">O</div>;
+      } else {
+        computerCell = '';
+      }
       return (
-        <div className="cell" onClick={attack}>
-          {attacked ? 'shot' : props.type}
+        <div className="cell" onClick={() => attack()}>
+          {computerCell}
         </div>
       );
     }
